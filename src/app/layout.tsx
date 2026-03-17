@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "PartsDirect - Find the Best Price on Auto Parts",
   description: "Compare prices across retailers for auto parts. Fast shipping, easy returns.",
+  verification: {
+    google: "bcZ_Je5hEvkF_9SfrjzTOT8pPpbiMY3oSXzBcPkkJVc",
+  },
 };
 
 export default function RootLayout({
