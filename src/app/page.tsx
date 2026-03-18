@@ -1,62 +1,104 @@
-import { STATIC_PARTS, getPartByNumber, getCategories } from "@/lib/static-data";
-import { SearchBar } from "@/components/SearchBar";
-import { QuickFilters } from "@/components/QuickFilters";
-import { CatalogGrid } from "@/components/CatalogGrid";
+"use client";
+
+import React, { useState } from 'react';
+import PlatformLayout from "@/components/PlatformLayout";
+import CompatibilitySearch from "@/components/CompatibilitySearch";
+import PartList from "@/components/PartList";
+import { STATIC_PARTS } from "@/lib/static-data";
+import { Play, Zap } from 'lucide-react';
 
 export default function Home() {
+  const [filteredParts, setFilteredParts] = useState(STATIC_PARTS);
+
+  const handleFilterChange = (filters: { year?: string; make?: string; model?: string }) => {
+    // In a real app, this would filter STATIC_PARTS
+    // For now we keep it simple or implement a basic filter
+    if (!filters.year && !filters.make && !filters.model) {
+      setFilteredParts(STATIC_PARTS);
+    } else {
+      const filtered = STATIC_PARTS.filter(part => {
+        const matchesYear = !filters.year || part.fits.some(f => f.includes(filters.year!));
+        const matchesMake = !filters.make || part.fits.some(f => f.toLowerCase().includes(filters.make!.toLowerCase()));
+        return matchesYear && matchesMake;
+      });
+      setFilteredParts(filtered);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#121212] text-white">
-      {/* Header */}
-      <header className="border-b border-[#333333] bg-[#1a1a1a]/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold">
-                Parts<span className="text-[#f96706]">Direct</span>
-              </h1>
-              <p className="text-sm text-gray-500">Find the best price, fast</p>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-400">{STATIC_PARTS.length} parts in catalog</span>
-            </div>
+    <PlatformLayout>
+      <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+        {/* Hero Section */}
+        <div className="relative group">
+          <div className="absolute -inset-1 bg-gradient-to-r from-industrial-primary/20 to-transparent rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+          <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 md:p-12 overflow-hidden">
+             <div className="flex flex-col md:flex-row items-center gap-10">
+               <div className="flex-1 space-y-6">
+                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-industrial-primary/10 text-industrial-primary rounded-full text-[10px] font-black uppercase tracking-widest border border-industrial-primary/20">
+                   <Zap size={12} />
+                   High-Authority Parts Catalog
+                 </div>
+                 <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white leading-[0.9] tracking-tight uppercase">
+                    Precision <span className="text-industrial-primary">Engineering</span> <br />
+                    At Your Fingertips
+                 </h1>
+                 <p className="text-slate-600 dark:text-slate-400 text-lg font-medium max-w-xl">
+                   Professional-grade automotive parts database with verified OEM compatibility and real-time inventory auditing for serious masters of the craft.
+                 </p>
+                 <div className="flex flex-wrap gap-4 pt-2">
+                    <button className="bg-industrial-primary hover:bg-orange-600 text-white font-black py-4 px-8 rounded-xl text-xs uppercase tracking-widest transition-all hover:scale-105 active:scale-95 shadow-lg shadow-industrial-primary/20">
+                      View Full Catalog
+                    </button>
+                    <button className="group flex items-center gap-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white font-black py-4 px-8 rounded-xl text-xs uppercase tracking-widest transition-all">
+                      <Play size={16} className="text-industrial-primary fill-industrial-primary group-hover:scale-110 transition-transform" />
+                      Platform Tour
+                    </button>
+                 </div>
+               </div>
+               
+               <div className="hidden lg:block w-72 h-72 relative">
+                  <div className="absolute inset-0 bg-industrial-primary/5 rounded-full animate-pulse"></div>
+                  <div className="absolute inset-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-full animate-[spin_20s_linear_infinite]"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="size-40 rounded-3xl bg-white dark:bg-slate-800 shadow-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-center rotate-12 group-hover:rotate-0 transition-transform duration-500">
+                       <Zap size={64} className="text-industrial-primary" strokeWidth={2.5} />
+                    </div>
+                  </div>
+               </div>
+             </div>
           </div>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        {/* Search Section */}
-        <div className="mb-8">
-          <SearchBar />
-        </div>
-
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar Filters - DISABLED FOR STATIC BUILD */}
-          <aside className="w-full lg:w-64 flex-shrink-0">
-            <div className="bg-[#1e1e1e] border border-[#333333] rounded-lg p-4">
-              <h3 className="text-sm font-semibold text-white mb-2">Filters</h3>
-              <p className="text-xs text-gray-500">Quick filters coming soon</p>
-            </div>
-          </aside>
-
-          {/* Catalog Grid */}
-          <div className="flex-1">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold">All Parts</h2>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">Sort by:</span>
-                <select className="bg-[#1e1e1e] border border-[#333333] text-white rounded px-3 py-1 text-sm">
-                  <option>Price: Low to High</option>
-                  <option>Price: High to Low</option>
-                  <option>Availability</option>
-                </select>
-              </div>
-            </div>
-
-            <CatalogGrid parts={STATIC_PARTS} />
+        {/* Search & Discovery Section */}
+        <div className="space-y-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+             <div className="space-y-1">
+                <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight italic">Search & <span className="text-industrial-primary">Discovery</span></h2>
+                <div className="h-1 w-20 bg-industrial-primary"></div>
+             </div>
+             <div className="flex items-center gap-4 text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                <span>Active Filters: {filteredParts.length} MATCHES FOUND</span>
+             </div>
           </div>
+          
+          <CompatibilitySearch onFilterChange={handleFilterChange} />
         </div>
-      </main>
-    </div>
+
+        {/* Catalog Table Section */}
+        <div className="space-y-6">
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+            <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest flex items-center gap-2">
+              <span className="size-2 rounded-full bg-industrial-primary"></span>
+              Live Inventory Audit
+            </h3>
+            <div className="flex gap-2">
+              <span className="text-[10px] font-black text-slate-400 uppercase bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded">Display: Table View</span>
+            </div>
+          </div>
+          
+          <PartList parts={filteredParts} />
+        </div>
+      </div>
+    </PlatformLayout>
   );
 }
