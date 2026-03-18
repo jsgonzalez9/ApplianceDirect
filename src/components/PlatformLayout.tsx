@@ -4,7 +4,7 @@ import React from 'react';
 import { 
   Bell, 
   User, 
-  SettingsInputComponent,
+  Settings,
   ShieldCheck
 } from 'lucide-react';
 import Link from 'next/link';
@@ -31,7 +31,7 @@ const PlatformLayout: React.FC<PlatformLayoutProps> = ({ children }) => {
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-3 group">
             <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-industrial-primary text-white shadow-lg shadow-industrial-primary/20 transition-transform group-hover:scale-105">
-              <SettingsInputComponent size={24} />
+              <Settings size={24} />
             </div>
             <div>
               <h2 className="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight uppercase italic">Parts<span className="text-industrial-primary">Direct</span></h2>
