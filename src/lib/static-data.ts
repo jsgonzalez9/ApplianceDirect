@@ -1,5 +1,5 @@
-// Static dataset for Parts Engine - 50 high-value parts
-// Focus: GMC Sierra / Chevy Silverado 2014-2019 (5.3L/6.2L)
+// Static dataset for Appliance Parts Engine
+// Focus: Major Appliances (Dishwashers, Washers, Dryers, Refrigerators)
 
 export interface StaticPart {
   id: string;
@@ -35,53 +35,45 @@ export interface StaticPart {
 }
 
 export const STATIC_PARTS: StaticPart[] = [
-  // IGNITION SYSTEM
+  // DISHWASHER COMPONENTS
   {
     id: "1",
-    part_number: "DR44G",
-    name: "Alternator - 220A High Output",
-    description: "High-output alternator for GMC Sierra/Chevrolet Silverado 2014-2018 with 5.3L/6.2L engines. Direct replacement with improved charging capacity.",
-    brand: "ACDelco",
-    category: "Electrical",
-    price: 189.99,
+    part_number: "W10503278",
+    name: "Dishwasher Main Control Board",
+    description: "Original OEM main control board for Whirlpool, Maytag, and Kenmore dishwashers. Manages all cleaning cycles and sensor inputs.",
+    brand: "Whirlpool",
+    category: "Electronics",
+    price: 154.99,
     oem_flag: true,
-    fits: ["2014-2018 GMC Sierra 1500 5.3L", "2014-2018 Chevy Silverado 1500 5.3L", "2014-2018 GMC Sierra 1500 6.2L", "2014-2018 Chevy Silverado 1500 6.2L"],
+    fits: ["Maytag MDB4949SDM1", "Whirlpool WDT720PADM2", "Kenmore 665.132"],
     symptoms: [
       {
-        description: "Battery light on dashboard",
+        description: "Dishwasher won't start or panel is dead",
         severity: "High",
         urgency: "ASAP",
         drivable: false,
-        diagnostic_steps: ["Check battery voltage with engine running (should be 13.5-14.5V)", "Listen for grinding noise from alternator", "Test alternator output with multimeter"]
+        diagnostic_steps: ["Check thermal fuse for continuity", "Verify 120V at main power connection", "Check door latch switch"]
       },
       {
-        description: "Dimming headlights at idle",
+        description: "Cycles stop mid-wash",
         severity: "Medium",
         urgency: "Soon",
         drivable: true,
-        diagnostic_steps: ["Check belt tension", "Clean battery terminals", "Test under load (AC + lights on)"]
-      },
-      {
-        description: "Car stalls while driving",
-        severity: "Critical",
-        urgency: "ASAP",
-        drivable: false,
-        diagnostic_steps: ["Check battery voltage drops below 12V while running", "Test alternator diode", "Inspect charging system wiring"]
+        diagnostic_steps: ["Inspect board for burn marks", "Check for error codes (e.g., F6 E1)", "Test heater circuit"]
       }
     ],
     install: {
       difficulty: 3,
       skill_level: "Intermediate",
-      labor_hours: 1.5,
-      tools: ["Socket set", "Torque wrench", "Multimeter", "Serpentine belt tool"],
-      pro_tips: "Disconnect battery before starting. Take photo of belt routing before removal.",
-      common_mistakes: "Forgetting to disconnect battery (short circuit risk), Overtightening mounting bolts (cracks housing)"
+      labor_hours: 1.0,
+      tools: ["Torx T15 screwdriver", "Nut driver set", "Multimeter"],
+      pro_tips: "Take a photo of all wire connections before disconnecting from the old board.",
+      common_mistakes: "Forgetting to disconnect power before service, Crossing signal wires."
     },
     prices: [
-      { retailer: "Amazon", price: 189.99, shipping: 0, url: "https://amazon.com/dp/B00XYZ" },
-      { retailer: "RockAuto", price: 156.50, shipping: 12.99, url: "https://rockauto.com" },
-      { retailer: "O'Reilly", price: 219.99, shipping: 0, url: "https://oreilly.com" },
-      { retailer: "AutoZone", price: 199.99, shipping: 0, url: "https://autozone.com" }
+      { retailer: "Amazon", price: 154.99, shipping: 0, url: "https://amazon.com" },
+      { retailer: "PartsDr", price: 142.50, shipping: 9.99, url: "https://partsdr.com" },
+      { retailer: "RepairClinic", price: 168.99, shipping: 0, url: "https://repairclinic.com" }
     ]
   },
   {

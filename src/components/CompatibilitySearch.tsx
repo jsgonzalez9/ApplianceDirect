@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, RefreshCw, Settings } from 'lucide-react';
+import { ChevronDown, Wrench, Filter, RefreshCw, Settings } from 'lucide-react';
 
-interface CompatibilitySearchProps {
+interface CompatibilityWrenchProps {
   onFilterChange: (filters: { year?: string; make?: string; model?: string }) => void;
 }
 
-const CompatibilitySearch: React.FC<CompatibilitySearchProps> = ({ onFilterChange }) => {
+const CompatibilityWrench: React.FC<CompatibilityWrenchProps> = ({ onFilterChange }) => {
   const [year, setYear] = useState('');
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
@@ -39,14 +39,9 @@ const CompatibilitySearch: React.FC<CompatibilitySearchProps> = ({ onFilterChang
 
       <div className="flex flex-col gap-8 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-1">
-            <h2 className="text-slate-900 dark:text-white text-xl md:text-2xl font-black tracking-tight flex items-center gap-3 uppercase">
-              <Settings className="text-industrial-primary" size={24} />
-              Part <span className="text-industrial-primary italic">Selector</span>
-            </h2>
-            <p className="text-slate-500 dark:text-slate-500 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">
-              Filter the PartsDirect database for verified vehicle compatibility.
-            </p>
+          <div className="flex items-center gap-3 mb-8 border-l-4 border-industrial-primary pl-4">
+            <Wrench size={24} className="text-industrial-primary" />
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Appliance Selection</h2>
           </div>
           
           <button 
@@ -60,7 +55,7 @@ const CompatibilitySearch: React.FC<CompatibilitySearchProps> = ({ onFilterChang
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
-            <label className="text-[10px] uppercase font-black text-slate-500 tracking-[0.2em] pl-1">Year</label>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Manuf. Year</label>
             <div className="relative group/select">
               <select
                 value={year}
@@ -79,7 +74,7 @@ const CompatibilitySearch: React.FC<CompatibilitySearchProps> = ({ onFilterChang
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] uppercase font-black text-slate-500 tracking-[0.2em] pl-1">Make</label>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Appliance Brand</label>
             <div className="relative group/select">
               <select
                 value={make}
@@ -98,7 +93,7 @@ const CompatibilitySearch: React.FC<CompatibilitySearchProps> = ({ onFilterChang
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] uppercase font-black text-slate-500 tracking-[0.2em] pl-1">Model</label>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Model Number</label>
             <div className="relative group/select">
               <select
                 value={model}
@@ -118,4 +113,4 @@ const CompatibilitySearch: React.FC<CompatibilitySearchProps> = ({ onFilterChang
   );
 };
 
-export default CompatibilitySearch;
+export default CompatibilityWrench;
