@@ -75,25 +75,34 @@ export default async function ComparePage({ params }: ComparePageProps) {
                 <div className="flex-1">
                   <div className="inline-flex items-center gap-2 bg-orange-600 text-white px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest mb-6">
                     <Star size={14} fill="currentColor" />
-                    Overall Winner
+                    Overall Winner: Best for Silverado
                   </div>
                   <h2 className="text-3xl md:text-5xl font-black mb-4">
                     {winner.brand} {winner.name}
                   </h2>
-                  <p className="text-zinc-400 text-lg mb-8 leading-relaxed">
+                  <p className="text-zinc-400 text-lg mb-6 leading-relaxed">
                     {comparison.verdict}
                   </p>
+                  
+                  {/* Conversion Micro-copy */}
+                  <div className="flex flex-wrap gap-4 mb-8 text-sm font-bold">
+                    <div className="flex items-center gap-2 text-green-400 bg-green-400/10 px-3 py-1.5 rounded-lg border border-green-400/20">
+                      <CheckCircle2 size={16} />
+                      ⚡ In stock — ships today
+                    </div>
+                    <div className="flex items-center gap-2 text-orange-400 bg-orange-400/10 px-3 py-1.5 rounded-lg border border-orange-400/20">
+                      <ShieldCheck size={16} />
+                      ✔ Fits most Silverado models
+                    </div>
+                  </div>
+
                   <div className="flex flex-wrap gap-4">
                     <a href={winner.affiliateUrl} target="_blank" rel="noopener noreferrer">
-                      <Button className="bg-white text-zinc-900 hover:bg-zinc-100 font-black h-14 px-8 text-lg">
-                        Buy Winner Now
+                      <Button className="bg-white text-zinc-900 hover:bg-zinc-100 font-black h-16 px-10 text-xl shadow-xl hover:scale-[1.02] transition-transform">
+                        Check Price on Amazon
                         <ArrowRight className="ml-2" />
                       </Button>
                     </a>
-                    <div className="flex items-center gap-3 px-6 py-4 bg-zinc-800/50 rounded-xl border border-zinc-700">
-                      <TrendingUp className="text-green-400" size={20} />
-                      <span className="font-bold text-sm">Best-Seller on Amazon</span>
-                    </div>
                   </div>
                 </div>
                 <div className="md:w-72 w-full bg-zinc-800 rounded-2xl p-6 border border-zinc-700">

@@ -1,7 +1,7 @@
 import { STATIC_PARTS } from "@/lib/static-data";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, Wrench, ArrowRight, ShieldAlert, Clock, Phone, MapPin, CheckCircle2 } from "lucide-react";
+import { AlertTriangle, Wrench, ArrowRight, ShieldAlert, Clock, Phone, MapPin, CheckCircle2, ShieldCheck, Star } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -165,6 +165,29 @@ export default async function SymptomPage({ params }: SymptomPageProps) {
             </div>
           </div>
 
+          {/* Mid-Page Comparison Injection: Force traffic to decisions */}
+          <div className="mb-16 p-1 bg-zinc-900 rounded-3xl shadow-xl overflow-hidden group">
+            <div className="bg-zinc-900 p-8 text-white relative">
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:rotate-12 transition-transform">
+                <ShieldCheck size={120} />
+              </div>
+              <div className="inline-flex items-center gap-2 bg-orange-600 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">
+                <Star size={12} fill="currentColor" />
+                Expert Recommendation
+              </div>
+              <h3 className="text-3xl font-black mb-4 tracking-tight">Best {firstPart.category} to Fix This Issue</h3>
+              <p className="text-zinc-400 mb-8 max-w-xl font-medium leading-relaxed">
+                Don't guess on quality. We've audited the top {firstPart.category} brands for your Silverado. See which one wins on durability vs. price.
+              </p>
+              <Link href={`/compare/best-${slugify(firstPart.category)}-chevy-silverado-1500`}>
+                <Button className="bg-white text-zinc-900 hover:bg-zinc-100 font-black h-14 px-8 text-lg">
+                  View Comparison Guide
+                  <ArrowRight className="ml-2" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+
           {/* Lead Gen Injection: Get Help Near You */}
           <div className="mb-16 bg-zinc-900 rounded-2xl p-8 text-white border-l-8 border-orange-600">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
@@ -244,8 +267,29 @@ export default async function SymptomPage({ params }: SymptomPageProps) {
             })}
           </div>
 
+          {/* Comparison Bridge: Which one to buy? */}
+          <div className="mt-16 bg-orange-50 border-2 border-orange-100 rounded-3xl p-8">
+            <div className="flex items-start gap-6">
+              <div className="bg-orange-600 p-3 rounded-2xl text-white">
+                <ShieldCheck size={28} />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black mb-2">Can't decide on a brand?</h3>
+                <p className="text-zinc-600 mb-6 font-medium">
+                  We've compared the top-rated {firstPart.category} brands for your truck. See the winner for durability, price, and noise.
+                </p>
+                <Link href={`/compare/best-${slugify(firstPart.category)}-chevy-silverado-1500`}>
+                  <Button variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white font-black h-12 px-8">
+                    Read Comparison Guide
+                    <ArrowRight className="ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {/* Related Troubleshooting */}
-          <div className="mt-16 bg-zinc-900 rounded-2xl p-8 text-white">
+          <div className="mt-8 bg-zinc-900 rounded-2xl p-8 text-white">
             <h3 className="text-xl font-bold mb-6">Related Troubleshooting</h3>
             <div className="grid md:grid-cols-2 gap-4">
               {[...relatedSymptoms, ...otherRelatedSymptoms].map((s, i) => (
