@@ -11,6 +11,30 @@ interface PartPageProps {
   }>;
 }
 
+export async function generateMetadata({ params }: PartPageProps): Promise<Metadata> {
+  const { partNumber } = await params;
+  const part = getPartByNumber(partNumber);
+  
+  if (!part) return { title: 'Part Not Found' };
+
+  const title = `${part.part_number} ${part.brand} ${part.name} - Appliance Repair Part`;
+  const description = `Buy ${part.brand} ${part.name} (${part.part_number}). Compare prices, check compatibility, and find symptoms of failure. Fast shipping available.`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `https://appliancedirect.com/p/${partNumber}`,
+    },
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      url: `https://appliancedirect.com/p/${partNumber}`,
+    }
+  };
+}
+
 export async function generateStaticParams() {
   return STATIC_PARTS.map((part) => ({
     partNumber: part.part_number,
@@ -34,7 +58,7 @@ export default async function PartPage({ params }: PartPageProps) {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center">
             <a href="/" className="text-2xl font-bold">
-              Parts<span className="text-[#f96706]">Direct</span>
+              Appliance<span className="text-[#f96706]">Direct</span>
             </a>
           </div>
         </div>
@@ -48,7 +72,7 @@ export default async function PartPage({ params }: PartPageProps) {
             <div className="bg-[#1e1e1e] border border-[#333333] rounded-lg p-8 mb-6">
               <div className="h-80 bg-[#2a2a2a] rounded-lg flex items-center justify-center">
                 <span className="text-6xl font-bold text-gray-700">
-                  {part.part_number.slice(0, 2)}
+                  {part.part_number.slice(0, 4)}
                 </span>
               </div>
             </div>
@@ -71,11 +95,11 @@ export default async function PartPage({ params }: PartPageProps) {
               <div className="flex items-center gap-4 pt-4">
                 <div className="flex items-center gap-2 text-gray-500">
                   <Truck size={18} />
-                  <span className="text-sm">Free shipping over $35</span>
+                  <span className="text-sm">Fast Parts Delivery</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-500">
                   <Shield size={18} />
-                  <span className="text-sm">2-year warranty</span>
+                  <span className="text-sm">OEM Certified Parts</span>
                 </div>
               </div>
 
@@ -104,7 +128,7 @@ export default async function PartPage({ params }: PartPageProps) {
                             `}>
                               {symptom.urgency}
                             </span>
-                            <span>{symptom.drivable ? '✓ Safe to drive' : '✗ Do not drive'}</span>
+                            <span>{symptom.drivable ? '✓ Safe to use' : '✗ Stop using immediately'}</span>
                           </div>
                         </div>
                       </div>
@@ -117,15 +141,15 @@ export default async function PartPage({ params }: PartPageProps) {
               <div className="mt-6 p-4 bg-[#1e1e1e] border border-[#333333] rounded-lg">
                 <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
                   <Wrench className="text-[#f96706]" size={20} />
-                  Installation
+                  Repair Guide
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-gray-500">Difficulty</p>
+                    <p className="text-sm text-gray-500">Skill Level</p>
                     <p className="font-medium">{part.install.skill_level}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Time</p>
+                    <p className="text-sm text-gray-500">Repair Time</p>
                     <p className="font-medium flex items-center gap-1">
                       <Clock size={14} /> {part.install.labor_hours} hours
                     </p>
@@ -147,13 +171,13 @@ export default async function PartPage({ params }: PartPageProps) {
                   ${part.price.toFixed(2)}
                 </span>
                 <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
-                  In Stock
+                  Ready to Ship
                 </Badge>
               </div>
 
               <Button className="w-full bg-[#f96706] hover:bg-orange-600 text-white h-12 text-lg mb-4">
                 <ShoppingCart className="mr-2" size={20} />
-                View Best Price
+                Find Best Price
               </Button>
 
               <a 
@@ -173,11 +197,11 @@ export default async function PartPage({ params }: PartPageProps) {
 
             <PriceComparison prices={part.prices} />
 
-            {/* Mechanic Lead Gen */}
+            {/* Technician Lead Gen */}
             <div className="bg-gradient-to-br from-[#f96706]/20 to-[#f96706]/5 border border-[#f96706]/30 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-2">Need a Mechanic?</h3>
+              <h3 className="text-lg font-semibold mb-2">Need a Pro Technician?</h3>
               <p className="text-sm text-gray-400 mb-4">
-                Get quotes from local shops for {part.name} installation
+                Get free repair quotes from local appliance experts for {part.name}
               </p>
               <div className="space-y-3">
                 <input
@@ -187,17 +211,17 @@ export default async function PartPage({ params }: PartPageProps) {
                 />
                 <select className="w-full bg-[#121212] border border-[#333333] rounded px-4 py-3 text-white"
                 >
-                  <option>When do you need it?</option>
-                  <option>ASAP - Won't start</option>
-                  <option>Soon - Within a week</option>
-                  <option>DIY - Just comparing prices</option>
+                  <option>Urgency</option>
+                  <option>Emergency - Leak/No Heat</option>
+                  <option>Standard - Within 48h</option>
+                  <option>Quotes only</option>
                 </select>
                 <Button className="w-full bg-white text-black hover:bg-gray-200 h-12">
-                  Get Free Quotes
+                  Get Free Repair Quotes
                 </Button>
               </div>
               <p className="text-xs text-gray-500 mt-3 text-center">
-                Average response time: 15 minutes
+                Average pro response: 12 minutes
               </p>
             </div>
           </div>
